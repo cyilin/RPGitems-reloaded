@@ -868,4 +868,22 @@ public class PowerHandler implements CommandHandler {
         ItemManager.save(Plugin.plugin);
         sender.sendMessage(ChatColor.AQUA + Locale.get("message.power.ok"));
     }
+
+    @CommandString("rpgitem $n[] power javascript $display:s[] $scriptname:s[]")
+    @CommandDocumentation("$command.rpgitem.javascript")
+    @CommandGroup("item_power_javascript")
+    public void javaScript(CommandSender sender, RPGItem item, String display, String scriptname) {
+        PowerJavaScript power = new PowerJavaScript();
+        power.item = item;
+        power.display = display;
+        power.script_name = scriptname;
+        if (!power.scriptExists()) {
+            sender.sendMessage(String.format(ChatColor.RED + Locale.get("message.javascript.notfound"), "RPGItems/javascripts/" + scriptname));
+            return;
+        }
+        power.loadJS();
+        item.addPower(power);
+        ItemManager.save(Plugin.plugin);
+        sender.sendMessage(ChatColor.AQUA + Locale.get("message.power.ok"));
+    }
 }

@@ -30,6 +30,7 @@ import think.rpgitems.item.ItemManager;
 import think.rpgitems.power.*;
 import think.rpgitems.support.WorldGuard;
 
+import java.io.File;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -82,6 +83,7 @@ public class Plugin extends JavaPlugin {
         Power.powers.put("lorefilter", PowerLoreFilter.class);
         Power.powers.put("commandhit", PowerCommandHit.class);
         Power.powers.put("tippedarrow", PowerTippedArrow.class);
+        Power.powers.put("javascript", PowerJavaScript.class);
     }
 
     @Override
@@ -95,6 +97,9 @@ public class Plugin extends JavaPlugin {
         }
         if (conf.getBoolean("localeInv", false)) {
             Events.useLocaleInv = true;
+        }
+        if (!(new File(getDataFolder(), "javascripts")).exists()) {
+            (new File(getDataFolder(), "javascripts")).mkdir();
         }
         getServer().getPluginManager().registerEvents(new Events(), this);
         getServer().getPluginCommand("rpgitemupdate").setExecutor(new RPGItemUpdateCommandHandler());
